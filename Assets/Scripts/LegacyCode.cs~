@@ -1,0 +1,76 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public class LegacyCode : MonoBehaviour {
+
+    /*float totalCost = price * amount;
+
+	if (totalCost <= myGold) 
+	{
+		//Enough gold.
+
+		if (stock >= amount) {
+			//Enough stocks.
+			int boughtAmount = amount;
+			myGold = myGold - totalCost;
+			return boughtAmount;
+
+		} else 
+		{
+			//Not enough stocks.
+			int boughtAmount = stock;
+			myGold = myGold - stock * price;
+			return boughtAmount;
+		}
+
+
+	} 
+	else
+	{
+		//Not enough gold.
+		int amountToBuy = Mathf.FloorToInt (myGold / price);
+
+		if (stock >= amountToBuy) {
+			//Enough stocks.
+			int boughtAmount = amountToBuy;
+			myGold = myGold - (amountToBuy * price);
+			return boughtAmount;
+
+		} else 
+		{
+			//Not enough stocks.
+			int boughtAmount = stock;
+			myGold = myGold - stock * price;
+			return boughtAmount;
+		}
+
+	}
+    
+    
+			f
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    */
+}

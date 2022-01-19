@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 73770976fa5647349b80419bf30d2080
+timeCreated: 1459593558
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - PlainsMaterial: {fileID: 2100000, guid: 55d581d1a89d60543800249a9e11833f, type: 2}
+  - MountainMaterial: {fileID: 2100000, guid: 91e68072599bb934d9179f08f7880990, type: 2}
+  - HillsMaterial: {instanceID: 0}
+  - ForestMaterial: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

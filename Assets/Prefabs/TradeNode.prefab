@@ -1,0 +1,214 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &112118
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 455542}
+  - 33: {fileID: 3331606}
+  - 65: {fileID: 6543364}
+  - 23: {fileID: 2349368}
+  - 114: {fileID: 11408382}
+  - 114: {fileID: 11413330}
+  - 114: {fileID: 11435140}
+  m_Layer: 0
+  m_Name: TradeNode
+  m_TagString: tradeNode
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &455542
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 112118}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 6.1258044, y: 5.8021274, z: -13.2890625}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!23 &2349368
+MeshRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 112118}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 8981262e50b67e14399c63b3249e8830, type: 2}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 0
+  m_ReflectionProbeUsage: 0
+  m_ProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 1
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+--- !u!33 &3331606
+MeshFilter:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 112118}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!65 &6543364
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 112118}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &11408382
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 112118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6b17e173358bca4abb2c4a7f46ad2a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myPosX: 0
+  myPosY: 0
+  map: {fileID: 0}
+  tradeNodeRadius: 0
+  foodPrice: 0
+  woolPrice: 0
+  woodPrice: 0
+  stonePrice: 0
+  ironOrePrice: 0
+  winePrice: 0
+  clothPrice: 0
+  leatherPrice: 0
+  steelPrice: 0
+  silverOrePrice: 0
+  silverWarePrice: 0
+  ironBarPrice: 0
+  horsePrice: 0
+  goldOrePrice: 0
+  foodStock: 0
+  woolStock: 0
+  woodStock: 0
+  stoneStock: 0
+  ironOreStock: 0
+  wineStock: 0
+  clothStock: 0
+  leatherStock: 0
+  steelStock: 0
+  silverOreStock: 0
+  silverWareStock: 0
+  ironBarStock: 0
+  horseStock: 0
+  goldOreStock: 0
+  foodSupply: 0
+  woolSupply: 0
+  woodSupply: 0
+  stoneSupply: 0
+  ironOreSupply: 0
+  wineSupply: 0
+  clothSupply: 0
+  leatherSupply: 0
+  steelSupply: 0
+  silverOreSupply: 0
+  silverWareSupply: 0
+  ironBarSupply: 0
+  horseSupply: 0
+  goldOreSupply: 0
+  foodDemand: 0
+  woolDemand: 0
+  woodDemand: 0
+  stoneDemand: 0
+  ironOreDemand: 0
+  wineDemand: 0
+  clothDemand: 0
+  leatherDemand: 0
+  steelDemand: 0
+  silverOreDemand: 0
+  silverWareDemand: 0
+  ironBarDemand: 0
+  horseDemand: 0
+  goldOreDemand: 0
+--- !u!114 &11413330
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 112118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 91
+    i1: 68
+    i2: 66
+    i3: 246
+    i4: 199
+    i5: 156
+    i6: 178
+    i7: 116
+    i8: 138
+    i9: 2
+    i10: 248
+    i11: 117
+    i12: 92
+    i13: 121
+    i14: 217
+    i15: 224
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+--- !u!114 &11435140
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 112118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 1
+  m_SendInterval: 1
+  m_SyncRotationAxis: 0
+  m_RotationSyncCompression: 2
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 112118}
+  m_IsPrefabParent: 1

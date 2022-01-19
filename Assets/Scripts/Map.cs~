@@ -1,0 +1,177 @@
+﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+
+public class Map : MonoBehaviour
+{
+
+    public GameObject[,] regions;
+    
+    public GameObject Tile;
+    public GameObject TradeNodePrefab;
+
+    public string[,] worldTileTypes;
+	public GameObject[,] tradeNodes;
+
+  	public int MapSizeX = 110;
+	public int MapSizeY = 110;
+	public int tradeNodeRadius = 10;
+
+    void Start()
+    {
+
+        regions = new GameObject[MapSizeX, MapSizeY];
+		tradeNodes = new GameObject[MapSizeX, MapSizeY];
+        CreateWorld();
+        PopulateWorldMap();
+
+
+        
+
+
+
+
+
+
+    }
+
+
+    //This will generate the world on paper.
+    void CreateWorld()
+    {
+        //Create 2D array to specify tile types.
+        worldTileTypes = new string[MapSizeX, MapSizeY];
+
+        //Convert some to plains.
+        for (int x = 0; x < MapSizeX; x++)
+        {
+            for (int y = 0; y < MapSizeY; y++)
+            {
+                if (y < 7)
+                {
+                    worldTileTypes[x, y] = "Plains";
+                }
+            }
+        }
+
+
+
+        //Convert some to mountains.
+        for (int x = 0; x < MapSizeX; x++)
+        {
+
+            for (int y = 0; y < MapSizeY; y++)
+            {
+
+                if (y > 6)
+                {
+                    worldTileTypes[x, y] = "Mountain";
+                }
+            }
+        }
+
+        //Convert some to Trade Node.
+        
+        //First one is manual.
+        worldTileTypes[tradeNodeRadius, tradeNodeRadius] = "TradeNode";
+
+        for (int x = tradeNodeRadius; x < MapSizeX; x = x + tradeNodeRadius * 2 + 1)
+        {
+            for (int y = tradeNodeRadius; y < MapSizeY; y = y + tradeNodeRadius*2 + 1)
+            {
+                        worldTileTypes[x, y] = "TradeNode";
+
+            }
+
+        }
+
+       
+    }
+
+    //This will create/spawn tiles for previously generated -on paper- world.
+    void PopulateWorldMap()
+    {
+
+        //Spawn plains.
+        for (int counterX = 0; counterX < MapSizeX; counterX++)
+        {
+            for (int counterY = 0; counterY < MapSizeY; counterY++)
+            {
+                if (worldTileTypes[counterX, counterY] == "Plains")
+                {
+
+                    GameObject go = Instantiate(Tile, new Vector3(counterX, counterY, 0), Quaternion.identity) as GameObject;
+                    regions[counterX, counterY] = go;
+
+                    Tile goScript = go.GetComponent<Tile>();
+                    goScript.myPosX = counterX;
+                    goScript.myPosY = counterY;
+                    goScript.myType = "Plains";
+
+                }
+            }
+        }
+
+        //Spawn mountains.
+        for (int counterX = 0; counterX < MapSizeX; counterX++)
+        {
+            for (int counterY = 0; counterY < MapSizeY; counterY++)
+            {
+                if (worldTileTypes[counterX, counterY] == "Mountain")
+                {
+
+                    GameObject go = Instantiate(Tile, new Vector3(counterX, counterY, 0), Quaternion.identity) as GameObject;
+                    regions[counterX, counterY] = go;
+
+                    Tile goScript = go.GetComponent<Tile>();
+                    goScript.myPosX = counterX;
+                    goScript.myPosY = counterY;
+                    goScript.myType = "Mountain";
+
+                }
+            }
+        }
+
+        //Spawn trade nodes.
+        for (int counterX = 0; counterX < MapSizeX; counterX++)
+        {
+            for (int counterY = 0; counterY < MapSizeY; counterY++)
+            {
+                if (worldTileTypes[counterX, counterY] == "TradeNode")
+                {
+					
+					GameObject go = Instantiate(TradeNodePrefab, new Vector3(counterX, counterY, 0), Quaternion.identity) as GameObject;
+					tradeNodes[counterX, counterY] = go;
+
+
+                    TradeNodeScript goScript = go.GetComponent<TradeNodeScript>();
+                    goScript.myPosX = counterX;
+                    goScript.myPosY = counterY;
+
+					goScript.AssignTradeNodes (regions);
+
+
+                }
+            }
+        }
+
+    }
+
+    //Assign Trade Nodes to respective regions.
+    //Okay this is a little messy.
+    //İlk if checki tile'ın trade node olup olmadığını buluyor.
+    //Ardından bu tile'ı base alarak tradeNodeRadius çerçevesindeki regionları assignlıyor.
+
+
+   
+    
+
+	void Printer()
+	{
+		Debug.Log ("hellööö");
+	}
+
+
+
+
+}

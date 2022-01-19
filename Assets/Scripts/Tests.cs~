@@ -1,0 +1,26 @@
+﻿using UnityEngine;
+using System.Collections;
+using System.Linq;
+
+public class Tests : MonoBehaviour
+{
+
+    void Start()
+    {
+		
+
+
+
+       // InvokeRepeating("Printer", 1, 3);
+
+    }
+
+
+    void Printer()
+    {
+        Debug.Log("Printed!");
+    }
+
+
+
+}

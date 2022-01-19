@@ -1,0 +1,124 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &170362
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 471988}
+  - 114: {fileID: 11423060}
+  - 114: {fileID: 114000013277556574}
+  - 114: {fileID: 114000012752453526}
+  m_Layer: 0
+  m_Name: PlayerController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &471988
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 170362}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 145.33133, y: 416.458, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!114 &11423060
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 170362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 59
+    i1: 29
+    i2: 243
+    i3: 4
+    i4: 155
+    i5: 166
+    i6: 203
+    i7: 4
+    i8: 59
+    i9: 222
+    i10: 12
+    i11: 40
+    i12: 79
+    i13: 245
+    i14: 53
+    i15: 209
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 170362}
+  m_IsPrefabParent: 1
+--- !u!114 &114000012752453526
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 170362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db07e279b58092945a73493ae33f2702, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  theServer: {fileID: 0}
+  myKingdom: {fileID: 0}
+  isUIOpen: 1
+  selectedRegion: {fileID: 0}
+  selectedTradeNode: {fileID: 0}
+  selectedArmy: {fileID: 0}
+  loginScreen: {fileID: 0}
+  regionViewerOwn: {fileID: 0}
+  regionViewerOther: {fileID: 0}
+  tradeNodeViewer: {fileID: 0}
+  armyViewerOwn: {fileID: 0}
+  armyViewerOther: {fileID: 0}
+  kingdomViewerOwn: {fileID: 0}
+  kingdomViewerOther: {fileID: 0}
+  currentActiveUI: {fileID: 0}
+  usernameText: {fileID: 0}
+  passwordText: {fileID: 0}
+  loginButton: {fileID: 0}
+  registerButton: {fileID: 0}
+  loginInfoText: {fileID: 0}
+  exitButton: {fileID: 0}
+--- !u!114 &114000013277556574
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 170362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cca840114eb18d64881c7fdce4521e68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myui: {fileID: 0}
+  uiLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  isTouched: 0

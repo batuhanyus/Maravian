@@ -1,0 +1,642 @@
+﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+
+
+//This class wil run game-mechanic wise logic.
+
+public class Region : MonoBehaviour {
+	
+
+	public TradeNodeScript myTradeNode;
+	public CommonGround commonGround;
+    public Kingdom myKingdom;
+    public Map map;
+
+    public Dictionary<float, TradeNodeScript> distances;
+
+
+
+    public int population;
+	public int livestock;
+	public float myGold;
+
+	public float fertility;
+	public float woodFertility;
+	public float stoneFertility;
+	public float ironOreFertility;
+	public float silverOreFertility;
+	public float goldOreFertility;
+	public float wineFertility;
+
+
+
+	// Resource productions.
+	public int foodProduction;
+	public int woolProduction;
+	public int woodProduction;
+	public int stoneProduction;
+	public int ironOreProduction;
+	public int wineProduction;
+	public int clothProduction;
+	public int leatherProduction;
+	public int steelProduction;
+	public int silverOreProduction;
+	public int silverWareProduction;
+	public int ironBarProduction;
+	public int horseProduction;
+	public int goldOreProduction;
+
+	//Building levels.
+	public int farmLevel;
+	public int pastureLevel;
+	public int lumberyardLevel;
+	public int quarryLevel;
+	public int mineLevel;
+	public int vineyardLevel;
+	public int tailorLevel;
+	public int metalWorksLevel;
+	public int jewelryLevel;
+
+	//Sector workforces.
+	public int farmWorkers;
+	public int pastureWorkers;
+	public int lumberyardWorkers;
+	public int quarryWorkers;
+	public int mineWorkers;
+	public int vineyardWorkers;
+	public int tailorWorkers;
+	public int metalWorksWorkers;
+	public int jewelryWorkers;
+
+    //Sector maximum workforces.
+    public int farmMaxWorkers;
+    public int pastureMaxWorkers;
+    public int lumberyardMaxWorkers;
+    public int quarryMaxWorkers;
+    public int mineMaxWorkers;
+    public int vineyardMaxWorkers;
+    public int tailorMaxWorkers;
+    public int metalWorksMaxWorkers;
+    public int jewelryMaxWorkers;
+
+    //Local stocks.
+    public int foodLocalStock;
+	public int woolLocalStock;
+	public int woodLocalStock;
+	public int stoneLocalStock;
+	public int ironOreLocalStock;
+	public int wineLocalStock;
+	public int clothLocalStock;
+	public int leatherLocalStock;
+	public int steelLocalStock;
+	public int silverOreLocalStock;
+	public int silverWareLocalStock;
+	public int ironBarLocalStock;
+	public int horseLocalStock;
+	public int goldOreLocalStock;
+
+	//Happiness contributors.This is float values that should be ragarded likes %'s.
+	float foodHappiness;
+	float woodHappiness;
+	float wineHappiness;
+	float clothHappiness;
+	float silverWareHappiness;
+
+    //Construction.
+    public int woodAccumulationPool;
+    public int stoneAccumulationPool;
+    public int woodNeededForConstruction;
+    public int stoneNeededForConstruction;
+    public bool currentlyConstructing;
+
+    //Current Construction Enumerator.
+    public enum BuildingTypeUnderConstruction
+    {
+        None,
+        Farm,
+        Pasture,
+        Lumberyard,
+        Quarry,
+        Mine,
+        Vineyard,
+        Tailor,
+        MetalWorks,
+        Jewelry
+    }
+    public BuildingTypeUnderConstruction buildingTypeUnderConstruction;
+
+
+    void Awake()
+    {
+        //Find Common Ground.
+        commonGround = GameObject.Find("CommonGround").GetComponent<CommonGround>();
+        //Find Map
+        map = GameObject.Find("TheServer").GetComponent<Map>();
+
+
+        
+
+
+    }
+
+    void Start()
+    {
+        FindMyTradeNode();
+        
+        //Start cycles.
+        InvokeRepeating("Cycle", 1f, 3f);
+
+
+    }
+
+    //Cycle.
+    void Cycle()
+    {
+        StartProduction();
+        //Consumption();
+       // Construction();
+
+
+    }
+
+    
+
+    
+
+    public void FindMyTradeNode()
+    {
+        GameObject[,] nodes = map.tradeNodes;
+        distances = new Dictionary<float, TradeNodeScript>();
+        Tile myTile = gameObject.GetComponent<Tile>();
+
+        //Distanceları ölç.
+        foreach(GameObject item in nodes)
+        {
+            TradeNodeScript nodeScript = item.GetComponent<TradeNodeScript>();
+
+            float farkX = Mathf.Abs(nodeScript.myPosX - myTile.myPosX);
+            float farkY = Mathf.Abs(nodeScript.myPosY - myTile.myPosY);
+
+            float distance = Mathf.Sqrt(farkX * farkX + farkY * farkY);
+
+            distances.Add(distance, nodeScript);
+
+            Debug.Log("Tn: " + distance);
+        }
+
+        //En yakını bul.
+		float closest = distances.Min<TKey>;
+
+        
+
+
+    }
+
+	//***************************Production.
+	//Sectors that need raw materials always have to be after raw material production!
+
+	void StartProduction ()
+	{
+
+		//Farm.(Food.)
+		foodProduction = Mathf.FloorToInt (farmWorkers*fertility);
+
+		//Pasture.(Food,Wool,Leather,Horse.) NEEDS REWORK FOR LIVESTOCK!!
+		//Thoughts:Pasture's output shouldn't affected by worker amount.Main factor must be livestock.
+		foodProduction = foodProduction + Mathf.FloorToInt (livestock / 2 * fertility);
+		woolProduction = Mathf.FloorToInt (livestock * fertility);
+		leatherProduction = Mathf.FloorToInt (livestock * fertility);
+		horseProduction = Mathf.FloorToInt (livestock * fertility);
+		
+
+		//Lumberyard.(Wood.)
+		woodProduction = Mathf.FloorToInt (lumberyardWorkers * woodFertility);
+
+		//Quarry.(Stone.)
+		stoneProduction = Mathf.FloorToInt (quarryWorkers * stoneFertility);
+			
+		//Mine.(Iron Ore,Silver Ore,Gold Ore.)
+		ironOreProduction = Mathf.FloorToInt (mineWorkers / 2 * ironOreFertility);
+		silverOreProduction = Mathf.FloorToInt (mineWorkers / 2 * silverOreFertility);
+		goldOreProduction = Mathf.FloorToInt (mineWorkers / 2 * goldOreFertility);
+
+		//Vineyard.(Wine.)
+		wineProduction = Mathf.FloorToInt (vineyardWorkers * wineFertility);
+
+		//Tailor.(Cloth.)
+	    int clothProductionCapacity = Mathf.FloorToInt(tailorWorkers);
+        int woolNeededForProduction = clothProductionCapacity * 1;
+            if(woolProduction >= woolNeededForProduction)
+            {
+                clothProduction = clothProductionCapacity;
+                woolLocalStock = woolProduction - woolNeededForProduction;
+                clothLocalStock = clothProduction;
+            }
+            else
+            {
+                int neededWool = woolNeededForProduction - woolProduction;
+                int boughtAmount = BuyStuff(neededWool, myTradeNode.woolPrice, myTradeNode.woolStock);
+                myTradeNode.UpdateWoolSupply(false, boughtAmount);
+                myTradeNode.UpdateWoolStock(false, boughtAmount);
+                clothProduction = (woolProduction + boughtAmount) / 1;
+                woolLocalStock = 0;
+                clothLocalStock = clothProduction;
+            }
+
+        //Metal Works.(Iron Bar,Steel.)
+        //IronBar.
+        int ironBarProductionCapacity = Mathf.FloorToInt(metalWorksWorkers);
+        int ironOreNeededForProduction = ironBarProductionCapacity * 1;
+        if (ironOreProduction >= ironOreNeededForProduction)
+        {
+            ironBarProduction = ironBarProductionCapacity;
+            ironOreLocalStock = ironOreProduction - ironOreNeededForProduction;
+            ironBarLocalStock = ironBarProduction;
+        }
+        else
+        {
+            int neededironOre = ironOreNeededForProduction - ironOreProduction;
+            int boughtAmount = BuyStuff(neededironOre, myTradeNode.ironOrePrice, myTradeNode.ironOreStock);
+            myTradeNode.UpdateIronOreSupply(false, boughtAmount);
+            myTradeNode.UpdateIronOreStock(false, boughtAmount);
+            ironBarProduction = (ironOreProduction + boughtAmount) / 1;
+            ironOreLocalStock = 0;
+            ironBarLocalStock = ironBarProduction;
+        }
+
+        //Steel.
+        int steelProductionCapacity = Mathf.FloorToInt(metalWorksWorkers);
+        int ironBarNeededForProduction = steelProductionCapacity * 1;
+        if (ironBarProduction >= ironBarNeededForProduction)
+        {
+            steelProduction = steelProductionCapacity;
+            ironBarLocalStock = ironBarProduction - ironBarNeededForProduction;
+            steelLocalStock = steelProduction;
+        }
+        else
+        {
+            int neededironBar = ironBarNeededForProduction - ironBarProduction;
+            int boughtAmount = BuyStuff(neededironBar, myTradeNode.ironBarPrice, myTradeNode.ironBarStock);
+            myTradeNode.UpdateIronBarSupply(false, boughtAmount);
+            myTradeNode.UpdateIronBarStock(false, boughtAmount);
+            steelProduction = (ironBarProduction + boughtAmount) / 1;
+            ironBarLocalStock = 0;
+            steelLocalStock = steelProduction;
+        }
+        
+
+        //Jewelry.(Silverware.)
+        int silverWareProductionCapacity = Mathf.FloorToInt(metalWorksWorkers);
+        int silverOreNeededForProduction = silverWareProductionCapacity * 1;
+        if (silverOreProduction >= silverOreNeededForProduction)
+        {
+            silverWareProduction = silverWareProductionCapacity;
+            silverOreLocalStock = silverOreProduction - silverOreNeededForProduction;
+            silverWareLocalStock = silverWareProduction;
+        }
+        else
+        {
+            int neededsilverOre = silverOreNeededForProduction - silverOreProduction;
+            int boughtAmount = BuyStuff(neededsilverOre, myTradeNode.silverOrePrice, myTradeNode.silverOreStock);
+            myTradeNode.UpdateSilverOreSupply(false, boughtAmount);
+            myTradeNode.UpdateSilverOreStock(false, boughtAmount);
+            silverWareProduction = (silverOreProduction + boughtAmount) / 1;
+            silverOreLocalStock = 0;
+            silverWareLocalStock = silverWareProduction;
+        }
+
+
+
+
+
+    }
+
+	//**********************Consumption.Also includes associated happiness calculations.
+	void Consumption ()
+	{
+
+		//Food.
+		int foodConsumption = population * 1;
+
+		if (foodProduction >= foodConsumption)
+		{
+			foodLocalStock = foodProduction - foodConsumption;
+			foodHappiness = 100f;
+			myTradeNode.UpdateFoodSupply (false, foodConsumption);
+			myTradeNode.UpdateFoodStock (false, foodConsumption);
+		}
+			else
+		{
+			int foodToBuy = foodConsumption - foodProduction;
+			int boughtAmount = BuyStuff (foodToBuy , myTradeNode.foodPrice, myTradeNode.foodStock);
+			foodHappiness = boughtAmount / foodConsumption * 100;
+			myTradeNode.UpdateFoodSupply (false, foodToBuy);
+			myTradeNode.UpdateFoodStock (false, boughtAmount);
+			foodLocalStock = 0;
+
+
+		}
+
+		//Wood.Oc,Şu,Ma,Ka,Ar ayları.
+		int woodConsumption = population * 1;
+
+		if(commonGround.month < 4 || commonGround.month > 10)
+		{
+			if (woodProduction >= woodConsumption)
+			{
+				woodLocalStock = woodProduction - woodConsumption;
+				woodHappiness = 100f;
+				myTradeNode.UpdateWoodSupply (false, woodConsumption);
+				myTradeNode.UpdateFoodStock (false, woodConsumption);
+
+			}
+			else
+			{
+				int woodToBuy = woodConsumption - woodProduction;
+				int boughtAmount = BuyStuff (woodToBuy, myTradeNode.woodPrice , myTradeNode.woodStock);
+				woodHappiness = boughtAmount / woodConsumption * 100;
+				myTradeNode.UpdateWoodSupply (false, woodToBuy);
+				myTradeNode.UpdateWoodStock (false, boughtAmount);
+				woodLocalStock = 0;
+
+			}
+
+
+		//Wine.**NEEDS MONTH FıXıNG!
+		int wineConsumption = population * 1;
+
+		if (wineProduction >= wineConsumption)
+		{
+			wineLocalStock = wineProduction - wineConsumption;
+			wineHappiness = 100f;
+			myTradeNode.UpdateWineSupply (false, wineConsumption);
+			myTradeNode.UpdateWineStock (false, wineConsumption);
+
+
+		}
+		else
+		{
+			int wineToBuy = wineConsumption - wineProduction;
+			int boughtAmount = BuyStuff (wineToBuy, myTradeNode.winePrice,  myTradeNode.wineStock);
+			wineHappiness = boughtAmount / wineConsumption * 100;
+			myTradeNode.UpdateWineSupply (false, wineToBuy);
+			myTradeNode.UpdateWineStock (false, boughtAmount);
+			wineLocalStock = 0;
+
+		}
+
+			//cloth.**NEEDS MONTH FıXıNG!
+			int clothConsumption = population * 1;
+
+			if (clothProduction >= clothConsumption)
+			{
+				clothLocalStock = clothProduction - clothConsumption;
+				clothHappiness = 100f;
+				myTradeNode.UpdateClothSupply (false, clothConsumption);
+				myTradeNode.UpdateClothStock (false, clothConsumption);
+
+			}
+			else
+			{
+				int clothToBuy = clothConsumption - clothProduction;
+				int boughtAmount = BuyStuff (clothToBuy, myTradeNode.clothPrice ,  myTradeNode.clothStock);
+				clothHappiness = boughtAmount / clothConsumption * 100;
+				myTradeNode.UpdateClothSupply (false, clothToBuy);
+				myTradeNode.UpdateClothStock (false, boughtAmount);
+				clothLocalStock = 0;
+
+			}
+
+
+			//silverWare.**NEEDS MONTH FıXıNG!
+			int silverWareConsumption = population * 1;
+
+			if (silverWareProduction >= silverWareConsumption)
+			{
+				silverWareLocalStock = silverWareProduction - silverWareConsumption;
+				silverWareHappiness = 100f;
+				myTradeNode.UpdateSilverWareSupply (false, silverWareConsumption);
+				myTradeNode.UpdateSilverWareStock (false, silverWareConsumption);
+
+			}
+			else
+			{
+				int silverWareToBuy = silverWareConsumption - silverWareProduction;
+				int boughtAmount = BuyStuff (silverWareToBuy, myTradeNode.silverWarePrice ,  myTradeNode.silverWareStock);
+				silverWareHappiness = boughtAmount / silverWareConsumption * 100;
+				myTradeNode.UpdateSilverWareSupply (false, silverWareToBuy);
+				myTradeNode.UpdateSilverWareStock (false, boughtAmount);
+				silverWareLocalStock = 0;
+
+			}
+
+		}
+
+	}
+
+
+    //****************************Building.
+
+
+
+	void Construction ()
+	{
+        bool woodPhaseCompleted;
+        bool stonePhaseCompleted;
+
+
+		if(currentlyConstructing == true)
+        {
+            //Accumulate wood.
+            int woodAmount = myKingdom.constructionSpeed;
+
+            if ((woodNeededForConstruction - woodAccumulationPool) >= woodAmount)
+            {
+                if (woodLocalStock >= woodAmount)
+                {
+                    woodAccumulationPool = woodAccumulationPool + woodAmount;
+                    woodLocalStock = woodLocalStock - woodAmount;
+                }
+                else
+                {
+                    int woodToBuy = woodAmount - woodLocalStock;
+                    int boughtAmount = BuyStuffState(woodToBuy, myTradeNode.woodPrice, myTradeNode.woodStock);
+                    myTradeNode.UpdateWoodSupply(false, boughtAmount);
+                    myTradeNode.UpdateWoodStock(false, boughtAmount);
+                    woodAccumulationPool = woodLocalStock + boughtAmount;
+                    woodLocalStock = 0;
+                }
+            }
+            else
+            {
+
+                int woodAmountSmall = woodNeededForConstruction - woodAccumulationPool;
+
+                if (woodLocalStock >= woodAmountSmall)
+                {
+                    woodAccumulationPool = woodAccumulationPool + woodAmountSmall;
+                    woodLocalStock = woodLocalStock - woodAmountSmall;
+                }
+                else
+                {
+                    int woodToBuy = woodAmountSmall - woodLocalStock;
+                    int boughtAmount = BuyStuffState(woodToBuy, myTradeNode.woodPrice, myTradeNode.woodStock);
+                    myTradeNode.UpdateWoodSupply(false, boughtAmount);
+                    myTradeNode.UpdateWoodStock(false, boughtAmount);
+                    woodAccumulationPool = woodLocalStock + boughtAmount;
+                    woodLocalStock = 0;
+                }
+
+            }
+         
+ 
+            //Accumulate stone.
+            int stoneAmount = myKingdom.constructionSpeed;
+
+            if ((stoneNeededForConstruction - stoneAccumulationPool) >= stoneAmount)
+            {
+                if (stoneLocalStock >= stoneAmount)
+                {
+                    stoneAccumulationPool = stoneAccumulationPool + stoneAmount;
+                    stoneLocalStock = stoneLocalStock - stoneAmount;
+                }
+                else
+                {
+                    int stoneToBuy = stoneAmount - stoneLocalStock;
+                    int boughtAmount = BuyStuffState(stoneToBuy, myTradeNode.stonePrice, myTradeNode.stoneStock);
+                    myTradeNode.UpdateStoneSupply(false, boughtAmount);
+                    myTradeNode.UpdateStoneStock(false, boughtAmount);
+                    stoneAccumulationPool = stoneLocalStock + boughtAmount;
+                    stoneLocalStock = 0;
+                }
+            }
+            else
+            {
+
+                int stoneAmountSmall = stoneNeededForConstruction - stoneAccumulationPool;
+
+                if (stoneLocalStock >= stoneAmountSmall)
+                {
+                    stoneAccumulationPool = stoneAccumulationPool + stoneAmountSmall;
+                    stoneLocalStock = stoneLocalStock - stoneAmountSmall;
+                }
+                else
+                {
+                    int stoneToBuy = stoneAmountSmall - stoneLocalStock;
+                    int boughtAmount = BuyStuffState(stoneToBuy, myTradeNode.stonePrice, myTradeNode.stoneStock);
+                    myTradeNode.UpdateStoneSupply(false, boughtAmount);
+                    myTradeNode.UpdateStoneStock(false, boughtAmount);
+                    stoneAccumulationPool = stoneLocalStock + boughtAmount;
+                    stoneLocalStock = 0;
+                }
+
+            }
+
+           
+           
+
+
+
+        }
+
+
+        //Finalize construction.
+
+
+        if (woodAccumulationPool >= woodNeededForConstruction)
+        {
+            woodPhaseCompleted = true;
+        }
+        else
+        {
+            woodPhaseCompleted = false;
+        }
+
+        if (stoneAccumulationPool >= stoneNeededForConstruction)
+        {
+            stonePhaseCompleted = true;
+        }
+        else
+        {
+            stonePhaseCompleted = false;
+        }
+
+        if (woodPhaseCompleted == true && stonePhaseCompleted == true)
+        {
+            //CODE NEEDED!
+        }
+
+    }
+
+
+	//******************************Buy stuff.
+
+        //Buy Stuff (private sector.)
+	int BuyStuff(int amount , float price , int stock)
+	{
+		int amountFromGoldCheck = Mathf.FloorToInt (myGold / price);
+		int amountFromStockCheck = stock;
+		int[] checkArray = new int[3];
+
+		checkArray[0] = amountFromGoldCheck;
+		checkArray [1] = amountFromStockCheck;
+		checkArray [2] = amount;
+
+		int boughtAmount = checkArray.Min ();
+
+		myGold = myGold - (boughtAmount * price);
+
+		return boughtAmount;
+
+	}
+
+    //Buy Stuff (state sector.)
+    int BuyStuffState(int amount, float price, int stock)
+    {
+        int amountFromGoldCheck = Mathf.FloorToInt(myKingdom.myGold / price);
+        int amountFromStockCheck = stock;
+        int[] checkArray = new int[3];
+
+        checkArray[0] = amountFromGoldCheck;
+        checkArray[1] = amountFromStockCheck;
+        checkArray[2] = amount;
+
+        int boughtAmount = checkArray.Min();
+
+        myKingdom.myGold = myKingdom.myGold - (boughtAmount * price);
+
+        return boughtAmount;
+
+    }
+
+
+
+    //******************************Sell Stuff.
+
+    void SellStuff(int amount, float price)
+	{
+		float goldToReceive = amount * price;
+		myGold = myGold + goldToReceive;
+	}
+
+	
+
+
+
+
+
+    //Start.
+
+	
+
+
+
+
+
+
+
+
+
+}
